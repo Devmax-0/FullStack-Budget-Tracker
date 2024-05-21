@@ -2,8 +2,11 @@
 
 import { Button } from "../../../components/ui/button";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 const Hero = () => {
+  const router = useRouter();
+  const { isSignedIn } = useUser();
   return (
     <div>
       <section className=" bg=[#F1F5F9]">
@@ -23,10 +26,14 @@ const Hero = () => {
             </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button onClick={() => router.push("/signup")}>
-                Get Started
-              </Button>
-              <Button variant="ghost">Learn More</Button>
+              {isSignedIn ? null : (
+                <div>
+                  <Button onClick={() => router.push("/sign-up")}>
+                    Get Started
+                  </Button>
+                  <Button variant="ghost">Learn More</Button>
+                </div>
+              )}
             </div>
           </div>
         </div>

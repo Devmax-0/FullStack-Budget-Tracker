@@ -13,7 +13,10 @@ const Header = () => {
       <Image src={"./logo.svg"} alt="logo" width={140} height={40} />
 
       {isSignedIn ? (
-        <UserButton />
+        <div className="flex justify-center items-center gap-5">
+          <Button onClick={() => router.push("/dashboard")}>Dashboard</Button>
+          <UserButton />
+        </div>
       ) : (
         <Button variant="default" onClick={() => router.push("/sign-up")}>
           Get Started
