@@ -9,12 +9,19 @@ import {
 } from "recharts";
 
 const BarChartDash = ({ budgetList }) => {
+  // Map budgetList to the expected data format for the chart
+  const chartData = budgetList.map((budget) => ({
+    name: budget.name,
+    totalSpend: budget.totalSpend,
+    amount: budget.amount,
+  }));
+
   return (
-    <div className="p-5 border rounded-lg">
-      <p className="font-bold text-lg">Activity</p>
+    <div className="p-10 border rounded-lg ">
+      <p className="font-bold text-lg mb-5">Activity</p>
       <ResponsiveContainer width="80%" height={300}>
         <BarChart
-          data={budgetList}
+          data={chartData}
           margin={{
             top: 7,
           }}
@@ -23,8 +30,8 @@ const BarChartDash = ({ budgetList }) => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="totalSpent" stackId="a" fill="#283841 " />
-          <Bar dataKey="budgetAmount" stackId="a" fill="#F1F5F9" />
+          <Bar dataKey="totalSpend" stackId="a" fill="#283841" />
+          <Bar dataKey="amount" stackId="a" fill="#BABEC2" />
         </BarChart>
       </ResponsiveContainer>
     </div>

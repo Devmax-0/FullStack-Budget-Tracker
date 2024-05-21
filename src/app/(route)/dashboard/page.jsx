@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser, userButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import CardInfo from "./_components/CardInfo";
 import { useEffect, useState } from "react";
 import { db } from "../../../../utils/dbConfig";
@@ -12,14 +12,14 @@ import ExpenseListTable from "../dashboard/expenses/_components/ExpenseListTable
 
 const Dashboard = () => {
   const { user } = useUser();
+  const [budgetList, setBudgetList] = useState([]);
+  const [expenseList, setExpenseList] = useState([]);
+
   useEffect(() => {
     if (user) {
       getBudgetList();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
-  const [budgetList, setBudgetList] = useState([]);
-  const [expenseList, setExpenseList] = useState([]);
 
   const getAllExpenses = async () => {
     const result = await db
@@ -41,14 +41,16 @@ const Dashboard = () => {
     const result = await db
       .select({
         ...getTableColumns(Budgets),
-        totalSpent: sql`sum(${Expenses.amount})`.mapWith(Number),
-        totalItem: sql`count(${Expenses.id})`.mapWith(Number),
+        totalSpend: sql`COALESCE(SUM(${Expenses.amount}), 0)`.mapWith(Number),
+        totalItem: sql`COALESCE(COUNT(${Expenses.id}), 0)`.mapWith(Number),
       })
       .from(Budgets)
       .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
       .where(eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress))
       .groupBy(Budgets.id)
       .orderBy(desc(Budgets.id));
+
+    console.log("Budget List Data:", result); // Log the result
 
     setBudgetList(result);
     getAllExpenses();
