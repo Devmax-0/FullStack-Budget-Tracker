@@ -24,6 +24,7 @@ import {
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import EditBudget from "../_components/EditBudget";
+import { generatePDF } from "../../../../../../utils/generatePDF";
 
 const ExpensesPage = ({ params }) => {
   const { user } = useUser();
@@ -79,6 +80,22 @@ const ExpensesPage = ({ params }) => {
     router.replace("/dashboard/budget");
   };
 
+  const [loading, setLoading] = useState(false);
+
+  const handleGeneratePDF = () => {
+    setLoading(true);
+    generatePDF({
+      title: budgetInfo.name,
+      amount: `Rs.${budgetInfo.amount}`,
+      expenses: expenseList.map((exp) => ({
+        name: exp.name,
+        amount: exp.amount,
+        date: exp.createAt,
+      })),
+    });
+    setLoading(false);
+  };
+
   return (
     <div>
       <div className="p-10 ">
@@ -88,6 +105,9 @@ const ExpensesPage = ({ params }) => {
             <p className="text-2xl font-bold">My Expenses</p>
           </span>
           <div className="flex items-center gap-2">
+            <button onClick={handleGeneratePDF} disabled={loading}>
+              {loading ? "Generating..." : "Generate PDF"}
+            </button>
             <EditBudget
               budgetInfo={budgetInfo}
               getRefreshData={() => getBudgetInfo()}
