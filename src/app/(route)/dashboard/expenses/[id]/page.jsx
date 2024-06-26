@@ -9,7 +9,7 @@ import BudgetItem from "../../budget/_components/BudgetItem";
 import AddExpense from "../_components/AddExpense";
 import ExpenseListTable from "../_components/ExpenseListTable";
 import { Button } from "../../../../../components/ui/button";
-import { ArrowLeft, Trash } from "lucide-react";
+import { ArrowLeft, Trash, FileText } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -101,13 +101,21 @@ const ExpensesPage = ({ params }) => {
       <div className="p-10 ">
         <div className="flex justify-between items-center">
           <span className="flex gap-2 items-center">
-            <ArrowLeft onClick={() => router.back()} />
+            <ArrowLeft
+              onClick={() => router.back()}
+              className="cursor-pointer"
+            />
             <p className="text-2xl font-bold">My Expenses</p>
           </span>
           <div className="flex items-center gap-2">
-            <button onClick={handleGeneratePDF} disabled={loading}>
-              {loading ? "Generating..." : "Generate PDF"}
-            </button>
+            <Button
+              onClick={handleGeneratePDF}
+              disabled={!budgetInfo}
+              className="flex gap-2"
+            >
+              <FileText className="w-5" />
+              Generate PDF
+            </Button>
             <EditBudget
               budgetInfo={budgetInfo}
               getRefreshData={() => getBudgetInfo()}
@@ -115,8 +123,12 @@ const ExpensesPage = ({ params }) => {
 
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="flex gap-2">
-                  <Trash /> Delete
+                <Button
+                  variant="destructive"
+                  className="flex gap-2"
+                  disabled={!budgetInfo}
+                >
+                  <Trash className="w-5" />
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>

@@ -48,8 +48,8 @@ const EditBudget = ({ budgetInfo, getRefreshData }) => {
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="flex gap-2">
-            <PenBox /> Edit
+          <Button className="flex gap-2" disabled={!budgetInfo}>
+            <PenBox className="w-5" /> Edit
           </Button>
         </DialogTrigger>
         <DialogContent>
