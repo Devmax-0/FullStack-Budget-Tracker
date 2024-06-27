@@ -99,7 +99,7 @@ const ExpensesPage = ({ params }) => {
   return (
     <div>
       <div className="p-2 md:p-10 ">
-        <div className="flex-col md:flex justify-between items-center">
+        <div className="flex flex-col md:flex-row justify-between items-center">
           <span className="flex gap-2 items-center mb-5">
             <ArrowLeft
               onClick={() => router.back()}
