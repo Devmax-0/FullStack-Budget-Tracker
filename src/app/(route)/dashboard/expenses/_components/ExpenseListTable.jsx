@@ -30,12 +30,12 @@ const ExpenseListTable = ({ expenseList, getRefreshData }) => {
           key={index}
           className="grid grid-cols-4 place-items-center bg-white p-2"
         >
-          <p className="text-left">{expense.name}</p>
-          <p>{expense.amount}</p>
-          <p>{expense.createAt}</p>
+          <p className="text-left text-sm">{expense.name}</p>
+          <p className="text-sm">{expense.amount}</p>
+          <p className="text-sm">{expense.createAt}</p>
           <p>
             <Trash
-              className="text-red-500 cursor-pointer"
+              className="text-red-500 cursor-pointer w-5"
               onClick={() => deleteExpense(expense)}
             />
           </p>
