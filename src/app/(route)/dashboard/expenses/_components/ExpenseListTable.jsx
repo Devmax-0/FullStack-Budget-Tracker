@@ -19,15 +19,18 @@ const ExpenseListTable = ({ expenseList, getRefreshData }) => {
 
   return (
     <div className="mt-3">
-      <div className="grid grid-cols-4 bg-[#F1F5F9] p-2">
+      <div className="grid grid-cols-4 place-items-center bg-[#F1F5F9] p-2">
         <p className="font-bold">Name</p>
         <p className="font-bold">Amount</p>
         <p className="font-bold">Date</p>
         <p className="font-bold">Action</p>
       </div>
       {expenseList?.map((expense, index) => (
-        <div key={index} className="grid grid-cols-4 bg-white p-2">
-          <p>{expense.name}</p>
+        <div
+          key={index}
+          className="grid grid-cols-4 place-items-center bg-white p-2"
+        >
+          <p className="text-left">{expense.name}</p>
           <p>{expense.amount}</p>
           <p>{expense.createAt}</p>
           <p>

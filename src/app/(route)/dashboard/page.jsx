@@ -57,7 +57,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-5">
+    <div className="p-2 md:p-5">
       <p className="font-bold text-3xl">Hi, {user?.fullName}</p>
       <p className="text-gray-500">
         Here Whats happening, Lets Manage your Money

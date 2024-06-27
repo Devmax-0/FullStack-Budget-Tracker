@@ -1,39 +1,61 @@
+import React from "react";
+import { Bar } from "react-chartjs-2";
 import {
-  Bar,
-  BarChart,
-  Legend,
-  ResponsiveContainer,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
   Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+  Legend,
+} from "chart.js";
+import { defaults } from "chart.js/auto";
+
+defaults.maintainAspectRatio = false;
+defaults.responsive = true;
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const BarChartDash = ({ budgetList }) => {
-  // Map budgetList to the expected data format for the chart
-  const chartData = budgetList.map((budget) => ({
-    name: budget.name,
-    totalSpend: budget.totalSpend,
-    amount: budget.amount,
-  }));
+  const chartData = {
+    labels: budgetList.map((budget) => budget.name),
+    datasets: [
+      {
+        label: "Total Spend",
+        data: budgetList.map((budget) => budget.totalSpend),
+        backgroundColor: "#283841",
+      },
+      {
+        label: "Amount",
+        data: budgetList.map((budget) => budget.amount),
+        backgroundColor: "#BABEC2",
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Activity",
+      },
+    },
+  };
 
   return (
-    <div className="p-10 border rounded-lg ">
-      <p className="font-bold text-lg mb-5">Activity</p>
-      <ResponsiveContainer width="80%" height={300}>
-        <BarChart
-          data={chartData}
-          margin={{
-            top: 7,
-          }}
-        >
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="totalSpend" stackId="a" fill="#283841" />
-          <Bar dataKey="amount" stackId="a" fill="#BABEC2" />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="w-full h-80 md:6/12 p-10 border rounded-lg">
+      <Bar data={chartData} options={options} />
     </div>
   );
 };
